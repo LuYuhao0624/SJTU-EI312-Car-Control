@@ -6,19 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
 	public Bluetooth bluetooth;
 	private WifiServer wifi;
 	private Speech speech;
-    private GestureDetector gesture_detector;
-
-    // least displacement to recognize as a gesture control
-    private static final float LEAST_DISPLACEMENT = 200;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,78 +84,6 @@ public class MainActivity extends AppCompatActivity {
 		};
 		registerReceiver(onRecognitionComplete, new IntentFilter(Speech.RECOGNITION_COMPLETE));
 
-		// gesture detector for gesture control
-		/*
-		gesture_detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
-			@Override
-			public boolean onDown(MotionEvent e) {
-				return false;
-			}
-
-			@Override
-			public void onShowPress(MotionEvent e) {	}
-
-			@Override
-			public boolean onSingleTapUp(MotionEvent e) {
-				return false;
-			}
-
-			@Override
-			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-				return false;
-			}
-
-			@Override
-			public void onLongPress(MotionEvent e) {
-				Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
-			}
-
-			@Override
-			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-				float x_displacement = e2.getX() - e1.getX();
-				float y_displacement = e2.getY() - e1.getY();
-				float abs_x_displacement = Math.abs(x_displacement);
-				float abs_y_displacement = Math.abs(y_displacement);
-
-				if (Math.max(Math.abs(x_displacement), Math.abs(y_displacement)) < LEAST_DISPLACEMENT) {
-					Toast.makeText(MainActivity.this, "Move too short. Try a longer move.", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-
-				if (abs_x_displacement > abs_y_displacement) {
-					if (x_displacement > 0) {
-						Toast.makeText(MainActivity.this, "Turn right.", Toast.LENGTH_SHORT).show();
-						// turn right
-						bluetooth.send(3);
-					}
-					else {
-						Toast.makeText(MainActivity.this, "Turn left.", Toast.LENGTH_SHORT).show();
-						// turn left
-						bluetooth.send(2);
-					}
-					return true;
-				}
-				else if (abs_x_displacement < abs_y_displacement) {
-					if (y_displacement > 0) {
-						Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
-						// stop
-						bluetooth.send(0);
-					}
-					else {
-						Toast.makeText(MainActivity.this, "Move forward.", Toast.LENGTH_SHORT).show();
-						// forward
-						bluetooth.send(1);
-					}
-					return true;
-				}
-				else {
-					Toast.makeText(MainActivity.this, "Move distance too close on two axises.", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-			}
-		});
-
-		 */
 	}
 
 	@Override
