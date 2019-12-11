@@ -87,70 +87,77 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		registerReceiver(onRecognitionComplete, new IntentFilter(Speech.RECOGNITION_COMPLETE));
+		gesture_detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+			@Override
+			public boolean onDown(MotionEvent e) {
+				return false;
+			}
 
-		// gesture detector
-        gesture_detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent e) {
-                return false;
-            }
+			@Override
+			public void onShowPress(MotionEvent e) {
 
-            @Override
-            public void onShowPress(MotionEvent e) {
+			}
 
-            }
+			@Override
+			public boolean onSingleTapUp(MotionEvent e) {
+				return false;
+			}
 
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return false;
-            }
+			@Override
+			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+				return false;
+			}
 
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                return false;
-            }
+			@Override
+			public void onLongPress(MotionEvent e) {
+				Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
+			}
 
-            @Override
-            public void onLongPress(MotionEvent e) {
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				float x_displacement = e2.getX() - e1.getX();
+				float y_displacement = e2.getY() - e1.getY();
+				float abs_x_displacement = Math.abs(x_displacement);
+				float abs_y_displacement = Math.abs(y_displacement);
 
-            }
+				if (Math.max(Math.abs(x_displacement), Math.abs(y_displacement)) < LEAST_DISPLACEMENT) {
+					Toast.makeText(MainActivity.this, "Move too short. Try a longer move.", Toast.LENGTH_SHORT).show();
+					return false;
+				}
 
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                float x_displacement = e2.getX() - e1.getX();
-                float y_displacement = e2.getY() - e1.getY();
-                float abs_x_displacement = Math.abs(x_displacement);
-                float abs_y_displacement = Math.abs(y_displacement);
+				if (abs_x_displacement > abs_y_displacement) {
+					if (x_displacement > 0) {
+						Toast.makeText(MainActivity.this, "Turn right.", Toast.LENGTH_SHORT).show();
+						// turn right
+						bluetooth.send(3);
+					}
+					else {
+						Toast.makeText(MainActivity.this, "Turn left.", Toast.LENGTH_SHORT).show();
+						// turn left
+						bluetooth.send(2);
+					}
+					return true;
+				}
+				else if (abs_x_displacement < abs_y_displacement) {
+					if (y_displacement > 0) {
+						Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
+						// stop
+						bluetooth.send(0);
+					}
+					else {
+						Toast.makeText(MainActivity.this, "Move forward.", Toast.LENGTH_SHORT).show();
+						// forward
+						bluetooth.send(1);
+					}
+					return true;
+				}
+				else {
+					Toast.makeText(MainActivity.this, "Move distance too close on two axises.", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+			}
+		});
 
-                if (Math.max(Math.abs(x_displacement), Math.abs(y_displacement)) < LEAST_DISPLACEMENT) {
-                    Toast.makeText(MainActivity.this, "Move too short. Try a longer move.", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                if (abs_x_displacement > abs_y_displacement) {
-                    if (x_displacement > 0) {
-                        Toast.makeText(MainActivity.this, "Turn right.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Turn left.", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-                else if (abs_x_displacement < abs_y_displacement) {
-                    if (y_displacement > 0) {
-                        Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Move forward.", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-                else {
-                    Toast.makeText(MainActivity.this, "Move distance too close on two axises.", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-        });
 	}
 
 	@Override
@@ -212,6 +219,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return gesture_detector.onTouchEvent(event);
+		NavController navi_controller = Navigation.findNavController(this, R.id.nav_host_fragment);
+		// get the current current navigation destination id
+		int navi_id = navi_controller.getCurrentDestination().getId();
+		// compare got id with that of navigation_gesture fragment id
+		if (navi_id == R.id.navigation_gesture) {
+			return gesture_detector.onTouchEvent(event);
+		}
+		return false;
     }
 }
