@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    该文件把多个fragment打包成一个逻辑整体：navigation。
+    每个fragment有各自的布局与标签。
+-->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_steer">
+
+    <fragment
+        android:id="@+id/navigation_steer"
+        android:name="com.car.SteerFragment"
+        android:label="@string/title_steer"
+        tools:layout="@layout/fragment_steer" />
+
+    <fragment
+        android:id="@+id/navigation_audio"
+        android:name="com.car.AudioFragment"
+        android:label="@string/title_audio"
+        tools:layout="@layout/fragment_audio" />
+
+    <fragment
+        android:id="@+id/navigation_gesture"
+        android:name="com.car.GestureFragment"
+        android:label="@string/title_gesture"
+        tools:layout="@layout/fragment_gesture" />
+</navigation>

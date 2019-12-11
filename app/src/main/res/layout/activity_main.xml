@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!--android:paddingTop="?attr/actionBarSize"-->
+
+    <!--注意：本文件中的组件是永远显示的。也就是说，切换fragment并不会影响这些组件的可见性。-->
+
+    <!--首先，定义底端的导航栏组件-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@navigation/navigation_menu">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <!--接着在上面放置一个ImageView对象，用于显示回传的图像-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="120pt"
+        android:layout_marginTop="5pt"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/btn_connect_bt" />
+
+    <!--然后，放置一个host_fragment作为容器，以容纳那些由导航栏管理的子fragment。
+    最后一行意思是：用文件mobile_navigation.xml作为导航器的描述-->
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:navGraph="@navigation/navigation_graph" />
+
+    <!--最后在顶部放置四个按钮，用于控制蓝牙/wifi-->
+    <Button
+        android:id="@+id/btn_connect_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onControlPressed"
+        android:text="蓝牙连接"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_disconnect_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onControlPressed"
+        android:text="蓝牙断开"
+        app:layout_constraintLeft_toRightOf="@id/btn_connect_bt"
+        app:layout_constraintTop_toTopOf="@id/btn_connect_bt" />
+
+    <Button
+        android:id="@+id/btn_connect_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onControlPressed"
+        android:layout_marginLeft="5pt"
+        android:text="Wifi直连"
+        app:layout_constraintLeft_toRightOf="@id/btn_disconnect_bt"
+        app:layout_constraintTop_toTopOf="@id/btn_disconnect_bt" />
+
+    <Button
+        android:id="@+id/btn_disconnect_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onControlPressed"
+        android:text="Wifi断开"
+        app:layout_constraintLeft_toRightOf="@id/btn_connect_wifi"
+        app:layout_constraintTop_toTopOf="@id/btn_connect_wifi" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
