@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 	private Bluetooth bluetooth;
 	private WifiServer wifi;
 	private Speech speech;
+    GestureDetector gesture_detector;
+    protected static final float LEAST_DISPLACEMENT = 200;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,70 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		registerReceiver(onRecognitionComplete, new IntentFilter(Speech.RECOGNITION_COMPLETE));
+
+		// gesture detector
+        gesture_detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                float x_displacement = e2.getX() - e1.getX();
+                float y_displacement = e2.getY() - e1.getY();
+                float abs_x_displacement = Math.abs(x_displacement);
+                float abs_y_displacement = Math.abs(y_displacement);
+
+                if (Math.max(Math.abs(x_displacement), Math.abs(y_displacement)) < LEAST_DISPLACEMENT) {
+                    Toast.makeText(MainActivity.this, "Move too short. Try a longer move.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                if (abs_x_displacement > abs_y_displacement) {
+                    if (x_displacement > 0) {
+                        Toast.makeText(MainActivity.this, "Turn right.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "Turn left.", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                else if (abs_x_displacement < abs_y_displacement) {
+                    if (y_displacement > 0) {
+                        Toast.makeText(MainActivity.this, "Stop.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "Move forward.", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Move distance too close on two axises.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        });
 	}
 
 	@Override
@@ -141,4 +209,9 @@ public class MainActivity extends AppCompatActivity {
 		//语言识别按钮按下时触发
 		speech.start();
 	}
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gesture_detector.onTouchEvent(event);
+    }
 }
