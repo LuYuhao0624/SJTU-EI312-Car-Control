@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,16 +27,23 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-	private Bluetooth bluetooth;
+	public Bluetooth bluetooth;
 	private WifiServer wifi;
 	private Speech speech;
-    GestureDetector gesture_detector;
-    protected static final float LEAST_DISPLACEMENT = 200;
+    private GestureDetector gesture_detector;
+
+    // least displacement to recognize as a gesture control
+    private static final float LEAST_DISPLACEMENT = 200;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		//初始化蓝牙，Wifi，以及语音识别器
+		bluetooth = new Bluetooth();
+		wifi = new WifiServer(getBaseContext());
+		speech = new Speech(getBaseContext());
 
 		//UI相关操作
 		AppBarConfiguration config = new AppBarConfiguration.Builder(
@@ -42,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
 		BottomNavigationView navigator = findViewById(R.id.nav_view);
 		NavigationUI.setupWithNavController(navigator, navController);
-
-		//初始化蓝牙，Wifi，以及语音识别器
-		bluetooth = new Bluetooth();
-		wifi = new WifiServer(getBaseContext());
-		speech = new Speech(getBaseContext());
 
 		//建立监听线程
 		new WifiServerThread(getBaseContext(), wifi).start();
@@ -87,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		registerReceiver(onRecognitionComplete, new IntentFilter(Speech.RECOGNITION_COMPLETE));
+
+		// gesture detector for gesture control
+		/*
 		gesture_detector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
 			@Override
 			public boolean onDown(MotionEvent e) {
@@ -94,9 +104,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 
 			@Override
-			public void onShowPress(MotionEvent e) {
-
-			}
+			public void onShowPress(MotionEvent e) {	}
 
 			@Override
 			public boolean onSingleTapUp(MotionEvent e) {
@@ -158,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+		 */
 	}
 
 	@Override
@@ -216,16 +225,4 @@ public class MainActivity extends AppCompatActivity {
 		//语言识别按钮按下时触发
 		speech.start();
 	}
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-		NavController navi_controller = Navigation.findNavController(this, R.id.nav_host_fragment);
-		// get the current current navigation destination id
-		int navi_id = navi_controller.getCurrentDestination().getId();
-		// compare got id with that of navigation_gesture fragment id
-		if (navi_id == R.id.navigation_gesture) {
-			return gesture_detector.onTouchEvent(event);
-		}
-		return false;
-    }
 }

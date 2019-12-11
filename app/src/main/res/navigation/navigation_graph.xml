@@ -28,4 +28,10 @@
         android:name="com.car.GestureFragment"
         android:label="@string/title_gesture"
         tools:layout="@layout/fragment_gesture" />
+
+    <fragment
+        android:id="@+id/navigation_gravity"
+        android:name="com.car.GravityFragment"
+        android:label="@string/title_gravity"
+        tools:layout="@layout/fragment_gravity" />
 </navigation>
