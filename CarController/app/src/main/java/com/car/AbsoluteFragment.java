@@ -26,4 +26,6 @@ public class AbsoluteFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_absolute, container, false);
         return root;
     }
+
+
 }

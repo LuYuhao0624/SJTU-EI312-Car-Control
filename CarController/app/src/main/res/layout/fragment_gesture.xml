@@ -10,6 +10,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100pt"
         android:fontFamily="sans-serif"
-        android:gravity="center_horizontal"
-        android:text="敬请期待" />
+        android:gravity="center_horizontal" />
 </LinearLayout>

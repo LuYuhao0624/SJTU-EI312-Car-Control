@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AbsoluteFragment">
@@ -8,4 +10,38 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button_north"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.66"
+        android:text="@string/north"/>
+
+    <Button
+        android:id="@+id/button_south"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/button_west"
+        app:layout_constraintStart_toEndOf="@id/button_west"
+        android:text="@string/south"/>
+
+    <Button
+        android:id="@+id/button_east"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/button_north"
+        app:layout_constraintStart_toEndOf="@id/button_north"
+        android:text="@string/east"/>
+
+    <Button
+        android:id="@+id/button_west"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/button_north"
+        app:layout_constraintEnd_toStartOf="@id/button_north"
+        android:text="@string/west"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
