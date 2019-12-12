@@ -86,8 +86,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			@Override public void run(){
 				YuvImage img = new YuvImage(data, ImageFormat.NV21, width, height, null);
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				stream.write(WifiClient.TYPE_BYTEARRAY);
 				img.compressToJpeg(new Rect(0, 0, width, height), quality, stream);
+				stream.write(WifiClient.TYPE_BYTEARRAY);  //附加数据类型
 				try{
 					stream.flush();
 					wifi.send(stream.toByteArray());
