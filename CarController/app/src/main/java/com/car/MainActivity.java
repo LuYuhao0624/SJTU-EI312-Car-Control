@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//初始化蓝牙，Wifi，以及语音识别器
-		bluetooth = new Bluetooth();
-		wifi = new WifiServer(getBaseContext());
-		speech = new Speech(getBaseContext());
-
 		//UI相关操作
 		AppBarConfiguration config = new AppBarConfiguration.Builder(
 			R.id.navigation_steer, R.id.navigation_audio, R.id.navigation_gesture
@@ -43,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
 		BottomNavigationView navigator = findViewById(R.id.nav_view);
 		NavigationUI.setupWithNavController(navigator, navController);
+
+		//初始化蓝牙，Wifi，以及语音识别器
+		bluetooth = new Bluetooth();
+		wifi = new WifiServer(getBaseContext());
+		speech = new Speech(getBaseContext());
 
 		//建立监听线程
 		new WifiServerThread(getBaseContext(), wifi).start();
@@ -57,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
 				imageView.setImageBitmap(bitmap);
 			}
 		};
-		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_MESSAGE));
+		BroadcastReceiver onOrientationArrive = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				float orientation = intent.getFloatExtra("data", 0);
+				//TODO: handle the event
+			}
+		};
+		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_IMAGE));
+		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_ORIENTATION));
 
 		//声明语音识别数据接收器，并绑定事件
 		BroadcastReceiver onRecognitionComplete = new BroadcastReceiver(){
@@ -89,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-		bluetooth.disconncet();
+		bluetooth.disconnect();
 		wifi.disconnect();
 		speech.close();
 	}
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 					Toast.makeText(getBaseContext(), "蓝牙连接失败", Toast.LENGTH_LONG).show();
 				break;
 			case R.id.btn_disconnect_bt:
-				if(bluetooth.disconncet())
+				if(bluetooth.disconnect())
 					Toast.makeText(getBaseContext(), "蓝牙已断开", Toast.LENGTH_LONG).show();
 				else
 					Toast.makeText(getBaseContext(), "蓝牙未能断开", Toast.LENGTH_LONG).show();

@@ -58,7 +58,7 @@ public class Bluetooth {
 		return true;
 	}
 
-	public boolean disconncet(){
+	public boolean disconnect(){
 		//关闭信道
 		if(btSocket == null)
 			return true;
@@ -71,6 +71,10 @@ public class Bluetooth {
 		Log.i(TAG, "Connection closed.");
 		return true;
 
+	}
+
+	public boolean isConnected(){
+		return (btSocket != null && btSocket.isConnected());
 	}
 
 	public void send(int command){

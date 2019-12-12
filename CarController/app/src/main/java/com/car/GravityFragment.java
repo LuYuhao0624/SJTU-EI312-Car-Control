@@ -59,8 +59,8 @@ public class GravityFragment extends Fragment implements SensorEventListener {
 		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
 			geomagnetic = event.values;
 		if (gravity != null && geomagnetic != null) {
-			float R[] = new float[9];
-			float I[] = new float[9];
+			float[] R = new float[9];
+			float[] I = new float[9];
 			boolean success = SensorManager.getRotationMatrix(R, I, gravity, geomagnetic);
 			if (success) {
 				float orientation[] = new float[3];
