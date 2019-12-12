@@ -20,6 +20,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 	private Camera camera;
 	private WifiClient wifi;
+	private boolean parity = true;
 
 	public CameraPreview(Context context, WifiClient wifi) {
 		super(context);
@@ -64,13 +65,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		//界面行将销毁时运行
-		;
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		//界面发生改变时运行
-		;
 	}
 
 	@Override
@@ -79,10 +78,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		if(data == null)
 			return;
 
+		parity = !parity;
+		if(parity)  //隔帧传送，节约带宽
+			return;
+
 		new Thread(){
 			@Override public void run(){
 				YuvImage img = new YuvImage(data, ImageFormat.NV21, width, height, null);
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				stream.write(WifiClient.TYPE_BYTEARRAY);
 				img.compressToJpeg(new Rect(0, 0, width, height), quality, stream);
 				try{
 					stream.flush();
