@@ -34,4 +34,10 @@
         android:name="com.car.GravityFragment"
         android:label="@string/title_gravity"
         tools:layout="@layout/fragment_gravity" />
+
+    <fragment
+        android:id="@+id/navigation_absolute"
+        android:name="com.car.AbsoluteFragment"
+        android:label="@string/title_absolute"
+        tools:layout="@layout/fragment_absolute" />
 </navigation>
