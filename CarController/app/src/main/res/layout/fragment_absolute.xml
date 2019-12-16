@@ -44,4 +44,36 @@
         app:layout_constraintTop_toBottomOf="@id/button_north"
         app:layout_constraintEnd_toStartOf="@id/button_north"
         android:text="@string/west"/>
+
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/button_north"
+        app:layout_constraintEnd_toStartOf="@id/button_east"
+        android:text="@string/stop"/>
+
+    <TextView
+        android:id="@+id/cur_dir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cur_dir_unknown"
+        app:layout_constraintTop_toBottomOf="@id/button_west"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_south"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/rela_dir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rela_dir_unknown"
+        app:layout_constraintTop_toBottomOf="@id/button_east"
+        app:layout_constraintStart_toEndOf="@id/button_south"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintVertical_bias="0.1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

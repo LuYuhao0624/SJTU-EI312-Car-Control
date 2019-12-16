@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity{
 	private WifiClient wifi;
@@ -22,8 +23,10 @@ public class MainActivity extends AppCompatActivity{
 		//构造preview对象。它能集中处理与预览相关的事件，并且在新帧到来时，将帧压缩并用wifi发送。
 		cameraPreview = new CameraPreview(getBaseContext(), wifi);
 
+		TextView azimuth_view = findViewById(R.id.azimuthView);
+
 		// start direction sensor
-		direction_sensor = new DirectionSensor(getBaseContext());
+		direction_sensor = new DirectionSensor(getBaseContext(), wifi, azimuth_view);
 
 		//把preview对象与主界面的surfaceView组件绑定
 		SurfaceView view = findViewById(R.id.surfaceView);
@@ -56,4 +59,5 @@ public class MainActivity extends AppCompatActivity{
 	public void onDisconnectPressed(View view){
 		wifi.disconnect();
 	}
+
 }

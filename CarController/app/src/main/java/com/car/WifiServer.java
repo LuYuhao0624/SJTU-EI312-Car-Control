@@ -16,9 +16,11 @@ import android.widget.Toast;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Collection;
 
 public class WifiServer {
-	private static String CLIENT_MAC = "02:7d:3d:ed:23:31";
+	//private static String CLIENT_MAC = "02:7d:3d:ed:23:31";
+	private static String CLIENT_MAC = "56:25:ea:f3:19:df";
 	private static String TAG = "Swallow.wifi";
 
 	private WifiP2pManager wifiManager;
@@ -64,11 +66,18 @@ public class WifiServer {
 								}
 							});
 						}
+						/*
+						Collection<WifiP2pDevice> l = list.getDeviceList();
+						for(WifiP2pDevice peer: l) {
+							Log.i(TAG, peer.deviceAddress);
+						}*/
 						break;
 
 					case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
 						//连接状态有变
 						WifiP2pInfo wifiInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
+						if(wifiInfo.isGroupOwner)
+							Log.i(TAG, "owner!");
 						if(wifiInfo.groupFormed  && wifiInfo.isGroupOwner) {
 							Log.i(TAG, "Connection established.");
 							serverAddress = wifiInfo.groupOwnerAddress;

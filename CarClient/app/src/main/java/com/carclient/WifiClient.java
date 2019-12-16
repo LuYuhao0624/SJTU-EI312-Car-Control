@@ -14,7 +14,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class WifiClient {
-	static byte TYPE_FLOAT = 0;
+	static byte TYPE_INT = 0;
 	static byte TYPE_BYTEARRAY = 1;
 	private String TAG = "Swallow.wifi";
 	private String SERVER_MAC = "52:04:b8:42:0f:01";
@@ -92,16 +92,15 @@ public class WifiClient {
 		return true;
 	}
 
-	public boolean send(float data){
+	public boolean send(int data){
 		//wrapper
-		int tmp = Float.floatToIntBits(data);
 		byte[] byteArray = new byte[5];  //The final byte indicates the type of data
 
-		byteArray[0] = (byte)((tmp & 0xff000000) >> 24);
-		byteArray[1] = (byte)((tmp & 0x00ff0000) >> 16);
-		byteArray[2] = (byte)((tmp & 0x0000ff00) >> 8);
-		byteArray[3] = (byte)(tmp & 0x000000ff);
-		byteArray[4] = WifiClient.TYPE_FLOAT;
+		byteArray[0] = (byte)((data & 0xff000000) >> 24);
+		byteArray[1] = (byte)((data & 0x00ff0000) >> 16);
+		byteArray[2] = (byte)((data & 0x0000ff00) >> 8);
+		byteArray[3] = (byte)(data & 0x000000ff);
+		byteArray[4] = WifiClient.TYPE_INT;
 
 		return send(byteArray);
 	}

@@ -57,15 +57,8 @@ public class MainActivity extends AppCompatActivity {
 				imageView.setImageBitmap(bitmap);
 			}
 		};
-		BroadcastReceiver onOrientationArrive = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				float orientation = intent.getFloatExtra("data", 0);
-				//TODO: handle the event
-			}
-		};
 		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_IMAGE));
-		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_ORIENTATION));
+		//registerReceiver(onOrientationArrive, new IntentFilter(WifiServerThread.WIFI_ORIENTATION));
 
 		//声明语音识别数据接收器，并绑定事件
 		BroadcastReceiver onRecognitionComplete = new BroadcastReceiver(){
