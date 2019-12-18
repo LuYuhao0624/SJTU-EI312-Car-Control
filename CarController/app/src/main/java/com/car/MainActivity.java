@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
 		//UI相关操作
 		AppBarConfiguration config = new AppBarConfiguration.Builder(
-			R.id.navigation_steer, R.id.navigation_audio, R.id.navigation_gesture
+			// R.id.navigation_steer,
+				R.id.navigation_audio, R.id.navigation_gesture
 		).build();
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 		NavigationUI.setupActionBarWithNavController(this, navController, config);

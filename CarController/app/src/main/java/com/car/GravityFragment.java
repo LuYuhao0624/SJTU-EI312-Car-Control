@@ -1,5 +1,6 @@
 package com.car;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,89 +17,75 @@ import android.widget.Toast;
 
 import static android.content.Context.SENSOR_SERVICE;
 
-public class GravityFragment extends Fragment implements SensorEventListener {
+public class GravityFragment extends Fragment {
 
     private Bluetooth bluetooth;
-    private SensorManager sensor_manager;
-    private Sensor accelerometer, magnetometer;
+    private MainActivity main_activity;
+    private Context base_context;
+    private DirectionSensor direction_sensor;
+
+	private int old_control = 0;
+	private int new_control = 0;
 
     // least pitch to turn left/right
-    private static final float LEAST_PITCH = 0.4f;
+    private static final int LEAST_PITCH = 20;
     // least roll to recognize as forward
-    private static final float LEAST_ROLL = -0.6f;
+    private static final int LEAST_ROLL = -45;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_gravity, container, false);
-        MainActivity main_activity = (MainActivity)getActivity();
-        bluetooth = main_activity.bluetooth;
-        sensor_manager = (SensorManager)getActivity().getSystemService(SENSOR_SERVICE);
-        accelerometer = sensor_manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        magnetometer = sensor_manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        main_activity = (MainActivity)getActivity();
+        base_context = main_activity.getBaseContext();
+        this.bluetooth = main_activity.bluetooth;
+
+        direction_sensor = new DirectionSensor(base_context, null) {
+			@Override
+			public void processDataOrSendSignal(int azimuth, int pitch, int roll) {
+				decodePitchRollOrSendControl(pitch, roll);
+			}
+		};
         return root;
     }
 
     public void onResume() {
         super.onResume();
-        sensor_manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-        sensor_manager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
+        direction_sensor.registerSensor();
     }
 
     //onPause() unregister the accelerometer for stop listening the events
     public void onPause() {
-        super.onPause();
-        sensor_manager.unregisterListener(this);
+        direction_sensor.unregisterSensor();
+		super.onPause();
     }
 
-    float[] gravity, geomagnetic;
-    int old_control = 0; // 0: stop, 1: forward, 2: left, 3: right
-    int new_control = 0;
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-			gravity = event.values;
-		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-			geomagnetic = event.values;
-		if (gravity != null && geomagnetic != null) {
-			float[] R = new float[9];
-			float[] I = new float[9];
-			boolean success = SensorManager.getRotationMatrix(R, I, gravity, geomagnetic);
-			if (success) {
-				float orientation[] = new float[3];
-				SensorManager.getOrientation(R, orientation);
-				float pitch = orientation[1];
-				float roll = orientation[2];
-				if (pitch > LEAST_PITCH) {
-					new_control = 2;
-				}
-				else if (pitch < -LEAST_PITCH) {
-					new_control = 3;
-				}
-				else if (roll > LEAST_ROLL) {
-					new_control = 1;
-				}
-				else {
-					new_control = 0;
-				}
-				if (old_control != new_control) {
-					if (new_control == 0) {
-						Toast.makeText(getActivity().getBaseContext(), "Stop.", Toast.LENGTH_SHORT).show();
-					}
-					else if(new_control == 1) {
-						Toast.makeText(getActivity().getBaseContext(), "Forward.", Toast.LENGTH_SHORT).show();
-					}
-					else if(new_control == 2) {
-						Toast.makeText(getActivity().getBaseContext(), "Left.", Toast.LENGTH_SHORT).show();
-					}
-					else {
-						Toast.makeText(getActivity().getBaseContext(), "Right.", Toast.LENGTH_SHORT).show();
-					}
-					bluetooth.send(new_control);
-				}
-				old_control = new_control;
-			}
+    private void decodePitchRollOrSendControl(int pitch, int roll) {
+		if (pitch > LEAST_PITCH) {
+			new_control = 2;
 		}
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {	}
+		else if (pitch < -LEAST_PITCH) {
+			new_control = 3;
+		}
+		else if (roll > LEAST_ROLL) {
+			new_control = 1;
+		}
+		else {
+			new_control = 0;
+		}
+		if (old_control != new_control) {
+			if (new_control == 0) {
+				Toast.makeText(base_context, "Stop.", Toast.LENGTH_SHORT).show();
+			}
+			else if(new_control == 1) {
+				Toast.makeText(base_context, "Forward.", Toast.LENGTH_SHORT).show();
+			}
+			else if(new_control == 2) {
+				Toast.makeText(base_context, "Left.", Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Toast.makeText(base_context, "Right.", Toast.LENGTH_SHORT).show();
+			}
+			bluetooth.send(new_control);
+		}
+		old_control = new_control;
+	}
 }

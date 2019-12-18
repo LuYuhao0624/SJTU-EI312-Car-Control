@@ -36,6 +36,8 @@ public class AbsoluteFragment extends Fragment {
     private int target_direction = -1;
     private int old_command = 0;
     private int new_command = 0;
+    private int new_direction = 0;
+    private int old_direction = 0;
     private MainActivity main_activity;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +48,8 @@ public class AbsoluteFragment extends Fragment {
         BroadcastReceiver onOrientationArrive = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                current_direction = intent.getIntExtra("data", 0);
+                int azimuth = intent.getIntExtra("data", 0);
+                current_direction = convertAzimuthToDirection(azimuth);
                 TextView cur_dir_view = main_activity.findViewById(R.id.cur_dir);
                 if (current_direction == NORTH) {
                     cur_dir_view.setText(R.string.cur_dir_north);
@@ -154,5 +157,51 @@ public class AbsoluteFragment extends Fragment {
             old_command = new_command;
         }
     }
+
+    private int convertAzimuthToDirection(int azimuth) {
+        if (inInterval(NORTH_LEFT, NORTH_RIGHT, azimuth))
+            new_direction = NORTH;
+        else if (inInterval(-WEST_MID, WEST_RIGHT, azimuth) || inInterval(WEST_LEFT, WEST_MID, azimuth))
+            new_direction = WEST;
+        else if (inInterval(EAST_LEFT, EAST_RIGHT, azimuth))
+            new_direction = EAST;
+        else if (inInterval(SOUTH_LEFT, SOUTH_RIGHT, azimuth))
+            new_direction = SOUTH;
+        else if (inInterval(NR_BUFFER, EL_BUFFER, azimuth))
+            new_direction = NORTHEAST;
+        else if (inInterval(ER_BUFFER, SL_BUFFER, azimuth))
+            new_direction = SOUTHEAST;
+        else if (inInterval(SR_BUFFER, WL_BUFFER, azimuth))
+            new_direction = SOUTHWEST;
+        else if (inInterval(WR_BUFFER, NL_BUFFER, azimuth))
+            new_direction = NORTHWEST;
+        else
+            new_direction = old_direction;
+        old_direction = new_direction;
+        return new_direction;
+    }
+
+    private boolean inInterval(int left, int right, int target) {
+        return (target >= left && target <= right);
+    }
+
+    private static final int BUFFER_WIDTH = 15;
+    private static final int EAST_LEFT = -10; // the y-axis of phone is not the car head direction
+    private static final int EAST_RIGHT = 10;
+    private static final int EL_BUFFER = EAST_LEFT - BUFFER_WIDTH;
+    private static final int ER_BUFFER = EAST_RIGHT + BUFFER_WIDTH;
+    private static final int WEST_LEFT = 170;
+    private static final int WEST_MID = 180;
+    private static final int WEST_RIGHT = -170;
+    private static final int WR_BUFFER = WEST_RIGHT + BUFFER_WIDTH;
+    private static final int WL_BUFFER = WEST_LEFT - BUFFER_WIDTH;
+    private static final int NORTH_LEFT = -100;
+    private static final int NORTH_RIGHT = -80;
+    private static final int NL_BUFFER = NORTH_LEFT - BUFFER_WIDTH;
+    private static final int NR_BUFFER = NORTH_RIGHT + BUFFER_WIDTH;
+    private static final int SOUTH_LEFT = 80;
+    private static final int SOUTH_RIGHT = 100;
+    private static final int SL_BUFFER = SOUTH_LEFT - BUFFER_WIDTH;
+    private static final int SR_BUFFER = SOUTH_RIGHT + BUFFER_WIDTH;
 
 }

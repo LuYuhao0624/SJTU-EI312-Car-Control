@@ -5,6 +5,7 @@
     <string name="title_gesture">手势控制</string>
     <string name="title_gravity">重力遥感</string>
     <string name="title_absolute">绝对方向</string>
+    <string name="title_synchronous">同步控制</string>
 
     <string name="north">北</string>
     <string name="south">南</string>
@@ -29,6 +30,7 @@
     <string name="rela_dir_left">相对指令：左转</string>
     <string name="rela_dir_right">相对指令：右转</string>
     <string name="rela_dir_unknown">相对指令：未知</string>
+    <string name="azimuth">azimuth</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
