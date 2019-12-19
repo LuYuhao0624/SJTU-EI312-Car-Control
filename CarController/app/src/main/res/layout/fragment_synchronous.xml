@@ -8,7 +8,7 @@
     tools:context=".SynchronousFragment">
 
     <TextView
-        android:id="@+id/azimuth_view"
+        android:id="@+id/controller_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,6 +16,82 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.85"
-        android:text="@string/azimuth" />
+        app:layout_constraintHorizontal_bias="0.4"
+        android:text="@string/controller" />
+
+    <TextView
+        android:id="@+id/client_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/controller_view"
+        app:layout_constraintEnd_toEndOf="@id/controller_view"
+        android:text="@string/client" />
+
+    <TextView
+        android:id="@+id/controller_sector_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/controller_view"
+        app:layout_constraintTop_toTopOf="@id/controller_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:text="@string/sector"/>
+
+    <TextView
+        android:id="@+id/client_sector_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/client_view"
+        app:layout_constraintTop_toTopOf="@id/client_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:text="@string/sector"/>
+
+    <TextView
+        android:id="@+id/controller_sector_number_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/controller_sector_view"
+        app:layout_constraintTop_toTopOf="@id/controller_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:text="12"/>
+
+    <TextView
+        android:id="@+id/client_sector_number_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/client_sector_view"
+        app:layout_constraintTop_toTopOf="@id/client_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:text="12"/>
+
+    <TextView
+        android:id="@+id/azimuth_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/controller_view"
+        android:text="0"/>
+
+    <Button
+        android:id="@+id/forward_in_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forward_eng"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/controller_view"
+        app:layout_constraintBottom_toBottomOf="@id/client_view"/>
+
+    <Button
+        android:id="@+id/stop_in_sync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_eng"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/controller_sector_number_view"
+        app:layout_constraintBottom_toBottomOf="@id/client_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

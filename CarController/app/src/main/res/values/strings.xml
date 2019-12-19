@@ -31,6 +31,11 @@
     <string name="rela_dir_right">相对指令：右转</string>
     <string name="rela_dir_unknown">相对指令：未知</string>
     <string name="azimuth">azimuth</string>
+    <string name="controller">controller</string>
+    <string name="client">client</string>
+    <string name="sector">sector</string>
+    <string name="forward_eng">FORWARD</string>
+    <string name="stop_eng">STOP</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

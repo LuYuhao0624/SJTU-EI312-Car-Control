@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:onClick="onDisconnectPressed"
         android:text="WIFI断开"
-        app:layout_constraintStart_toEndOf="@id/btn_connect"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/btn_connect"
+        app:layout_constraintTop_toBottomOf="@id/btn_connect" />
 
     <SurfaceView
         android:id="@+id/surfaceView"
@@ -38,8 +38,70 @@
         android:id="@+id/azimuthView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@id/btn_disconnect"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/surfaceView"/>
+        android:layout_marginStart="15dp"
+        android:textSize="18sp"
+        android:text="Azimuth"
+        app:layout_constraintStart_toEndOf="@id/direction_switch"
+        app:layout_constraintTop_toTopOf="@id/direction_switch"
+        app:layout_constraintBottom_toBottomOf="@id/direction_switch"/>
+
+    <TextView
+        android:id="@+id/illuminanceView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textSize="18sp"
+        android:text="Illuminance"
+        app:layout_constraintStart_toEndOf="@id/location_switch"
+        app:layout_constraintTop_toTopOf="@id/location_switch"
+        app:layout_constraintBottom_toBottomOf="@id/location_switch" />
+
+    <Button
+        android:id="@+id/directionSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/direction_sensor"
+        android:onClick="onFlipDirection"
+        app:layout_constraintStart_toEndOf="@id/btn_connect"
+        app:layout_constraintTop_toTopOf="@id/btn_connect" />
+
+    <Button
+        android:id="@+id/locationUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location_update"
+        app:layout_constraintStart_toStartOf="@id/directionSensor"
+        app:layout_constraintTop_toBottomOf="@id/directionSensor" />
+
+    <TextView
+        android:id="@+id/direction_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="18sp"
+        android:text="@string/off"
+        app:layout_constraintBottom_toBottomOf="@id/directionSensor"
+        app:layout_constraintStart_toEndOf="@id/directionSensor"
+        app:layout_constraintTop_toTopOf="@id/directionSensor" />
+
+    <TextView
+        android:id="@+id/location_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="18sp"
+        android:text="@string/off"
+        app:layout_constraintTop_toTopOf="@id/locationUpdate"
+        app:layout_constraintBottom_toBottomOf="@id/locationUpdate"
+        app:layout_constraintStart_toEndOf="@id/locationUpdate"/>
+
+    <Button
+        android:id="@+id/lightSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="light"
+        android:onClick="onFlipLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
