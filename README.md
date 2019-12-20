@@ -1,11 +1,7 @@
 # SJTU-EI312
 ## Requests
-1. Implement turn on/off flash light function in CameraPreview in CarClient. See more in Section Details.
-2. Think of more fancy ways of control. Anything related to location is not very favorable.
-3. Reduce the speed of changing direction. (not very necessary now)
-
-## Details
-The intention is that when the ambient is dim, we make the client phone turn on its torch. However, I cannot do that independently because the camera is occupied by the client cameraPreview all the time (it blocks others to use torch). Therefore, I need u to implement a function in CameraPreview to turn on/off the torch. U can see the how I am going to use it in `CarClient.MainActivity.turnOn/OffLight`. U may refer to [this](https://stackoverflow.com/questions/6068803/how-to-turn-on-front-flash-light-programmatically-in-android) on how to turn on the torch.
+1. Think of more fancy ways of control. Anything related to location is not very favorable.
+2. Reduce the speed of changing direction. (not very necessary now)
 
 ## To-do
 1. Think of some new controls.
@@ -20,7 +16,7 @@ The intention is that when the ambient is dim, we make the client phone turn on 
 	- Change operation mode: Hold the button to speak, release the button when you finish.
 	- Allow user to specify the duration of each action.
 2. Fix the inconsistency problem on the caption bar.
-
+3. Support control over flashlight.
 
 ### Dec. 19
 1. Implement Synchronous Control and test with the car. Good.
