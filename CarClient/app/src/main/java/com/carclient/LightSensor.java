@@ -14,8 +14,8 @@ public abstract class LightSensor implements SensorEventListener {
     private Sensor light_sensor;
     private Context main_context;
     private TextView illuminance_view;
-    private MainActivity main_activity;
-    private static final int THRESHHOLD = 10;
+    private static final int THRESHOLD = 10;
+    private static final int BUFFER = 1;
 
     LightSensor(Context context, TextView view) {
         main_context = context;
@@ -36,9 +36,9 @@ public abstract class LightSensor implements SensorEventListener {
         if (event.sensor.getType() == Sensor.TYPE_LIGHT)
             illuminance = event.values[0];
         illuminance_view.setText(String.valueOf(illuminance));
-        if (illuminance < THRESHHOLD && !isLightOn())
+        if (illuminance <= THRESHOLD-BUFFER && !isLightOn())
             lightOn();
-        else if (illuminance >= THRESHHOLD && isLightOn())
+        else if (illuminance >= THRESHOLD+BUFFER && isLightOn())
             lightOff();
     }
     public void onAccuracyChanged(Sensor sensor, int accuracy) {	}

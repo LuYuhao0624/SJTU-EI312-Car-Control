@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.Policy;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 	private static String TAG = "Swallow.camera";
@@ -48,6 +49,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		camera.setPreviewCallback(null);
 		camera.stopPreview();
 		camera.release();
+	}
+
+	public void setFlashLight(boolean on){
+		Camera.Parameters param = camera.getParameters();
+		if(on)
+			param.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+		else
+			param.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		camera.setParameters(param);
 	}
 
 	@Override

@@ -1,19 +1,11 @@
 package com.carclient;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
-import android.graphics.Camera;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity{
 	private WifiClient wifi;
@@ -70,6 +62,7 @@ public class MainActivity extends AppCompatActivity{
 		cameraPreview.close();
 		if (direction_on)
 			direction_sensor.unregisterSensor();
+		light_sensor.unregisterSensor();
 		super.onDestroy();
 	}
 
@@ -89,23 +82,21 @@ public class MainActivity extends AppCompatActivity{
 	}
 
 	public void onFlipLight(View view) {
+		light_on = !light_on;
 		if (light_on)
 			turnOnLight();
 		else
 			turnOffLight();
-		light_on = !light_on;
 	}
 
 	public void turnOnLight() {
-		// invoke a function of CameraPreview to turn on the flash light
-		// cameraPreview.turnOnLight()
+		cameraPreview.setFlashLight(true);
 		light_on = true;
 		Toast.makeText(this, "light_on:" + String.valueOf(light_on), Toast.LENGTH_SHORT).show();
 	}
 
 	public void turnOffLight() {
-		// invoke a function of CameraPreview to turn off the flash light
-		// cameraPreview.turnOffLight()
+		cameraPreview.setFlashLight(false);
 		light_on = false;
 		Toast.makeText(this, "light_on:" + String.valueOf(light_on), Toast.LENGTH_SHORT).show();
 	}
