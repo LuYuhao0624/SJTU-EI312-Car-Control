@@ -21,8 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
 	public Bluetooth bluetooth;
-	private WifiServer wifi;
-	private Speech speech;
+	public WifiServer wifi;
+	public Speech speech;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
 		//UI相关操作
 		AppBarConfiguration config = new AppBarConfiguration.Builder(
-			// R.id.navigation_steer,
-				R.id.navigation_audio, R.id.navigation_gesture
+				R.id.navigation_speech, R.id.navigation_gesture, R.id.navigation_gravity,
+				R.id.navigation_absolute, R.id.navigation_synchronous
 		).build();
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 		NavigationUI.setupActionBarWithNavController(this, navController, config);
@@ -59,33 +59,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 		};
 		registerReceiver(onImageArrive, new IntentFilter(WifiServerThread.WIFI_IMAGE));
-		//registerReceiver(onOrientationArrive, new IntentFilter(WifiServerThread.WIFI_ORIENTATION));
-
-		//声明语音识别数据接收器，并绑定事件
-		BroadcastReceiver onRecognitionComplete = new BroadcastReceiver(){
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String result = intent.getStringExtra("result");
-				TextView textview = findViewById(R.id.text_audio);
-				textview.setText(result);
-
-				int direction = 0;
-				int duration = 0;
-				if (result.contains("前进")) {
-					direction = 1;
-					bluetooth.send(1);
-				} else if (result.contains("左")){
-					direction = 2;
-					bluetooth.send(2);
-				}else if(result.contains("右")) {
-					direction = 3;
-					bluetooth.send(3);
-				}
-
-			}
-		};
-		registerReceiver(onRecognitionComplete, new IntentFilter(Speech.RECOGNITION_COMPLETE));
-
 	}
 
 	@Override
@@ -120,28 +93,5 @@ public class MainActivity extends AppCompatActivity {
 				Toast.makeText(getBaseContext(), "wifi直连已断开", Toast.LENGTH_LONG).show();
 				break;
 		}
-	}
-
-	public void onSteerPressed(View view){
-		//操纵杆有动作时触发
-		switch(view.getId()){
-			case R.id.btn_up:
-				bluetooth.send(1);
-				break;
-			case R.id.btn_down:
-				bluetooth.send(0);
-				break;
-			case R.id.btn_left:
-				bluetooth.send(2);
-				break;
-			case R.id.btn_right:
-				bluetooth.send(3);
-				break;
-		}
-	}
-
-	public void onAudioPressed(View view){
-		//语言识别按钮按下时触发
-		speech.start();
 	}
 }

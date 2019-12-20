@@ -9,19 +9,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_audio">
-    <!--
+    app:startDestination="@+id/navigation_speech">
+
     <fragment
-        android:id="@+id/navigation_steer"
-        android:name="com.car.SteerFragment"
-        android:label="@string/title_steer"
-        tools:layout="@layout/fragment_steer" />
-    -->
-    <fragment
-        android:id="@+id/navigation_audio"
-        android:name="com.car.AudioFragment"
-        android:label="@string/title_audio"
-        tools:layout="@layout/fragment_audio" />
+        android:id="@+id/navigation_speech"
+        android:name="com.car.SpeechFragment"
+        android:label="@string/title_speech"
+        tools:layout="@layout/fragment_speech" />
 
     <fragment
         android:id="@+id/navigation_gesture"

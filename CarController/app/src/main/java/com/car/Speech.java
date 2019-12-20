@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,6 +36,10 @@ public class Speech {
 		recognizer.startListening(intent);
 	}
 
+	public void finish(){
+		recognizer.stopListening();
+	}
+
 	public void close(){
 		recognizer.cancel();
 		recognizer.destroy();
@@ -47,25 +50,23 @@ public class Speech {
 		public void onReadyForSpeech(Bundle params) { }
 
 		@Override
-		public void onBeginningOfSpeech() {
-			Toast.makeText(context, "请开始", Toast.LENGTH_SHORT).show();
-		}
+		public void onBeginningOfSpeech() { }
 
 		@Override
-		public void onEndOfSpeech() {
-			Toast.makeText(context, "请稍候", Toast.LENGTH_SHORT).show();
-		}
+		public void onEndOfSpeech() { }
 
 		@Override
 		public void onError(int error) {
-			Toast.makeText(context, "语音识别出错", Toast.LENGTH_SHORT).show();
 			switch(error){
 				case SpeechRecognizer.ERROR_NETWORK:
 				case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-					Log.e(TAG, "Network error.");
+					Toast.makeText(context, "网络错误", Toast.LENGTH_SHORT).show();
 					break;
-				case SpeechRecognizer.ERROR_AUDIO:
-					Log.e(TAG, "Audio error.");
+				case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+					Toast.makeText(context, "请开启麦克风权限", Toast.LENGTH_SHORT).show();
+					break;
+				default:
+					Toast.makeText(context, "未知错误", Toast.LENGTH_SHORT).show();
 			}
 		}
 

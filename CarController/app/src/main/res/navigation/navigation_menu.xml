@@ -3,17 +3,10 @@
 <!--该文件定义了底部导航栏的菜单项，包括文字、图标。这个文件并没有描述每项与fragment之间的联系。-->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--
     <item
-        android:id="@+id/navigation_steer"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_steer" />
-    -->
-
-    <item
-        android:id="@+id/navigation_audio"
+        android:id="@+id/navigation_speech"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_audio" />
+        android:title="@string/title_speech" />
 
     <item
         android:id="@+id/navigation_gesture"

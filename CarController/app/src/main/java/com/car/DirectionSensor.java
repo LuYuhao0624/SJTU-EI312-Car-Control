@@ -60,7 +60,7 @@ public abstract class DirectionSensor implements SensorEventListener {
 		}
 	}
 
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {	}
+	public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
 	public abstract void processDataOrSendSignal(int azimuth, int pitch, int roll);
 }

@@ -6,7 +6,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/text_audio"
+        android:id="@+id/text_speech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -16,12 +16,11 @@
         android:textSize="12pt" />
 
     <ImageButton
-        android:id="@+id/btn_audio"
+        android:id="@+id/btn_speech"
         android:layout_width="40pt"
         android:layout_height="40pt"
         android:layout_gravity="center"
         android:layout_marginTop="20pt"
-        android:onClick="onAudioPressed"
         app:srcCompat="@android:drawable/sym_action_chat" />
 
 </LinearLayout>

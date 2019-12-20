@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CarController</string>
     <string name="title_steer">操纵杆</string>
-    <string name="title_audio">语音控制</string>
+    <string name="title_speech">语音控制</string>
     <string name="title_gesture">手势控制</string>
     <string name="title_gravity">重力遥感</string>
     <string name="title_absolute">绝对方向</string>
@@ -36,7 +36,6 @@
     <string name="sector">sector</string>
     <string name="forward_eng">FORWARD</string>
     <string name="stop_eng">STOP</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
