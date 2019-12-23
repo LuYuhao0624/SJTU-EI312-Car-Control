@@ -2,6 +2,7 @@
     <string name="app_name">CarClient</string>
     <string name="direction_sensor">方向传感</string>
     <string name="location_update">位置更新</string>
+    <string name="auto_light">自动感光</string>
     <string name="on">开</string>
     <string name="off">关</string>
 </resources>

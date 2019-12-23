@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/synchronous_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SynchronousFragment">
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintVertical_bias="0.8"
         app:layout_constraintHorizontal_bias="0.4"
         android:text="@string/controller" />
 
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="@id/controller_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
-        android:text="12"/>
+        android:text="8"/>
 
     <TextView
         android:id="@+id/client_sector_number_view"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toTopOf="@id/client_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
-        android:text="12"/>
+        android:text="8"/>
 
     <TextView
         android:id="@+id/azimuth_view"
@@ -93,5 +93,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/controller_sector_number_view"
         app:layout_constraintBottom_toBottomOf="@id/client_view" />
+
+    <Button
+        android:id="@+id/toggle_sync_control"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        />
+
+    <com.car.TraceDrawer
+        android:id="@+id/dots_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        android:text="control sequence"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

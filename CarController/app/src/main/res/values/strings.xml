@@ -36,6 +36,7 @@
     <string name="sector">sector</string>
     <string name="forward_eng">FORWARD</string>
     <string name="stop_eng">STOP</string>
+    <string name="toggle">TOGGLE</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -37,18 +37,21 @@ public class AbsoluteFragment extends Fragment {
     private int old_command = 0;
     private int old_direction = 0;
     private MainActivity main_activity;
+    private BroadcastReceiver onOrientationArrive;
+    TextView cur_dir_view, rela_dir;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_absolute, container, false);
         main_activity = (MainActivity)getActivity();
         bluetooth = main_activity.bluetooth;
+        cur_dir_view = root.findViewById(R.id.cur_dir);
+        rela_dir = root.findViewById(R.id.rela_dir);
 
-        BroadcastReceiver onOrientationArrive = new BroadcastReceiver() {
+        onOrientationArrive = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int azimuth = intent.getIntExtra("data", 0);
                 current_direction = mapDegreeToDirection(azimuth);
-                TextView cur_dir_view = main_activity.findViewById(R.id.cur_dir);
                 switch (current_direction) {
                     case WEST:
                         cur_dir_view.setText(R.string.cur_dir_west);
@@ -137,7 +140,6 @@ public class AbsoluteFragment extends Fragment {
     }
 
     private void onChangeDirection(int current_dir, int target_dir) {
-        TextView rela_dir = main_activity.findViewById(R.id.rela_dir);
         int diff = target_dir - current_dir;
         int new_command;
         if (target_dir == STOP) {
@@ -174,4 +176,13 @@ public class AbsoluteFragment extends Fragment {
         return new_direction;
     }
 
+    public void onResume(){
+        super.onResume();
+        main_activity.registerReceiver(onOrientationArrive, new IntentFilter(WifiServerThread.WIFI_ORIENTATION));
+    }
+
+    public void onPause(){
+        main_activity.unregisterReceiver(onOrientationArrive);
+        super.onPause();
+    }
 }

@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity{
 	private DirectionSensor direction_sensor;
 	private LightSensor light_sensor;
 	private boolean direction_on = false;
-	private boolean location_on = false;
+	private boolean auto_light_on = false;
 	private boolean light_on = false;
 
 	@Override
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity{
 				return light_on;
 			}
 		};
-		light_sensor.registerSensor();
 
 		//把preview对象与主界面的surfaceView组件绑定
 		SurfaceView view = findViewById(R.id.surfaceView);
@@ -81,12 +80,19 @@ public class MainActivity extends AppCompatActivity{
 		direction_on = !direction_on;
 	}
 
-	public void onFlipLight(View view) {
-		light_on = !light_on;
-		if (light_on)
-			turnOnLight();
-		else
-			turnOffLight();
+	public void onFlipAutoLight(View view) {
+		TextView auto_light_status = findViewById(R.id.auto_light_status);
+		TextView illuminance_view = findViewById(R.id.illuminanceView);
+		auto_light_on = !auto_light_on;
+		if (auto_light_on) {
+			light_sensor.registerSensor();
+			auto_light_status.setText(R.string.on);
+		}
+		else {
+			light_sensor.unregisterSensor();
+			auto_light_status.setText(R.string.off);
+			illuminance_view.setText("Illuminance");
+		}
 	}
 
 	public void turnOnLight() {

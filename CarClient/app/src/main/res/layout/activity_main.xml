@@ -52,9 +52,9 @@
         android:layout_marginStart="15dp"
         android:textSize="18sp"
         android:text="Illuminance"
-        app:layout_constraintStart_toEndOf="@id/location_switch"
-        app:layout_constraintTop_toTopOf="@id/location_switch"
-        app:layout_constraintBottom_toBottomOf="@id/location_switch" />
+        app:layout_constraintStart_toEndOf="@id/auto_light_status"
+        app:layout_constraintTop_toTopOf="@id/auto_light_status"
+        app:layout_constraintBottom_toBottomOf="@id/auto_light_status" />
 
     <Button
         android:id="@+id/directionSensor"
@@ -66,13 +66,6 @@
         app:layout_constraintStart_toEndOf="@id/btn_connect"
         app:layout_constraintTop_toTopOf="@id/btn_connect" />
 
-    <Button
-        android:id="@+id/locationUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/location_update"
-        app:layout_constraintStart_toStartOf="@id/directionSensor"
-        app:layout_constraintTop_toBottomOf="@id/directionSensor" />
 
     <TextView
         android:id="@+id/direction_switch"
@@ -86,22 +79,22 @@
         app:layout_constraintTop_toTopOf="@id/directionSensor" />
 
     <TextView
-        android:id="@+id/location_switch"
+        android:id="@+id/auto_light_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textSize="18sp"
         android:text="@string/off"
-        app:layout_constraintTop_toTopOf="@id/locationUpdate"
-        app:layout_constraintBottom_toBottomOf="@id/locationUpdate"
-        app:layout_constraintStart_toEndOf="@id/locationUpdate"/>
+        app:layout_constraintTop_toTopOf="@id/lightSwitch"
+        app:layout_constraintBottom_toBottomOf="@id/lightSwitch"
+        app:layout_constraintStart_toEndOf="@id/lightSwitch"/>
 
     <Button
         android:id="@+id/lightSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="light"
-        android:onClick="onFlipLight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/auto_light"
+        android:onClick="onFlipAutoLight"
+        app:layout_constraintStart_toStartOf="@id/directionSensor"
+        app:layout_constraintTop_toBottomOf="@id/directionSensor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

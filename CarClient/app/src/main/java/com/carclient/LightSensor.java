@@ -16,6 +16,7 @@ public abstract class LightSensor implements SensorEventListener {
     private TextView illuminance_view;
     private static final int THRESHOLD = 10;
     private static final int BUFFER = 1;
+    private boolean sensor_registered = false;
 
     LightSensor(Context context, TextView view) {
         main_context = context;
@@ -25,12 +26,19 @@ public abstract class LightSensor implements SensorEventListener {
     }
 
     void registerSensor() {
-        sensor_manager.registerListener(this, light_sensor, SensorManager.SENSOR_DELAY_GAME);
+        if (!sensor_registered) {
+            sensor_manager.registerListener(this, light_sensor, SensorManager.SENSOR_DELAY_GAME);
+            sensor_registered = true;
+        }
     }
 
     void unregisterSensor() {
-        sensor_manager.unregisterListener(this);
+        if (sensor_registered) {
+            sensor_manager.unregisterListener(this);
+            sensor_registered = false;
+        }
     }
+
     public void onSensorChanged(SensorEvent event) {
         float illuminance = 0;
         if (event.sensor.getType() == Sensor.TYPE_LIGHT)
