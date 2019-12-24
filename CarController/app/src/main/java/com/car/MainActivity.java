@@ -11,14 +11,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+	private AppBarConfiguration mAppBarConfiguration;
 	public Bluetooth bluetooth;
 	public WifiServer wifi;
 	public Speech speech;
@@ -28,16 +32,17 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//UI相关操作
-		AppBarConfiguration config = new AppBarConfiguration.Builder(
-				R.id.navigation_speech, R.id.navigation_gesture, R.id.navigation_gravity,
-				R.id.navigation_absolute, R.id.navigation_synchronous
-		).build();
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
+		NavigationView navigationView = findViewById(R.id.nav_view);
+		mAppBarConfiguration = new AppBarConfiguration.Builder(
+				R.id.navigation_basic, R.id.navigation_speech, R.id.navigation_gesture,
+				R.id.navigation_gravity, R.id.navigation_absolute, R.id.navigation_synchronous
+		).setDrawerLayout(drawer).build();
 		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-		NavigationUI.setupActionBarWithNavController(this, navController, config);
-
-		BottomNavigationView navigator = findViewById(R.id.nav_view);
-		NavigationUI.setupWithNavController(navigator, navController);
+		NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+		NavigationUI.setupWithNavController(navigationView, navController);
 
 		//初始化蓝牙，Wifi，以及语音识别器
 		bluetooth = new Bluetooth();
@@ -66,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
 		bluetooth.disconnect();
 		wifi.disconnect();
 		speech.close();
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+		return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+				|| super.onSupportNavigateUp();
 	}
 
 	public void onControlPressed(View view){

@@ -9,7 +9,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_speech">
+    app:startDestination="@+id/navigation_basic">
+
+    <fragment
+        android:id="@+id/navigation_basic"
+        android:name="com.car.BasicFragment"
+        android:label="@string/title_basic"
+        tools:layout="@layout/fragment_basic" />
 
     <fragment
         android:id="@+id/navigation_speech"

@@ -4,6 +4,10 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/navigation_basic"
+        android:title="@string/title_basic" />
+
+    <item
         android:id="@+id/navigation_speech"
         android:icon="@drawable/ic_speech"
         android:title="@string/title_speech" />

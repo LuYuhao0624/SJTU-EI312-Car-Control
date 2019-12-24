@@ -155,7 +155,6 @@ public class TraceDrawer extends View {
 			case MotionEvent.ACTION_UP: // indicate end of draw
 				first_selected = false;
 				decodeSelectedSequence();
-				printControlSequence((TextView) getRootView().findViewById(R.id.controls));
 				new ControlThread().start();
 				break;
 		}
@@ -237,28 +236,10 @@ public class TraceDrawer extends View {
 		dot_selected = BitmapFactory.decodeResource(getResources(), R.drawable.point_pressed);
 	}
 
-	private void printControlSequence(TextView view) {
-		StringBuffer controls = new StringBuffer();
-		for (ControlSignalPair pair:control_sequence) {
-			if (pair.degree == 0)
-				controls.append("do not turn\n");
-			else if (pair.degree == 180)
-				controls.append("turn back\n");
-			else if (pair.degree != -1) { // indicate that this is a turning signal
-				String direction = (pair.signal == 2) ? "left" : "right";
-				controls.append("turn " + direction + " " + pair.degree + " degrees\n");
-			}
-			else { //  indicate that this is a timed forward signal
-				controls.append("forward " + pair.duration + "s\n");
-			}
-		}
-		view.setText(controls);
-	}
-
 	class ControlThread extends Thread{
 		@Override
 		public void run(){
-			int targetAzimuth = azimuthController;
+			int targetAzimuth = azimuthClient;
 
 			occupied = true;
 
