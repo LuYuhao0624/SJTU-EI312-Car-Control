@@ -5,27 +5,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_speech"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_speech"
         android:title="@string/title_speech" />
 
     <item
         android:id="@+id/navigation_gesture"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_gesture"
         android:title="@string/title_gesture" />
 
     <item
         android:id="@+id/navigation_gravity"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_gravity"
         android:title="@string/title_gravity" />
 
     <item
         android:id="@+id/navigation_absolute"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_direction"
         android:title="@string/title_absolute" />
 
     <item
         android:id="@+id/navigation_synchronous"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_trace"
         android:title="@string/title_synchronous" />
 
 </menu>

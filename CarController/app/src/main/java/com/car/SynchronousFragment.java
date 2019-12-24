@@ -4,20 +4,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,6 +47,7 @@ public class SynchronousFragment extends Fragment {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				int azimuth = intent.getIntExtra("data", 0);
+				trace_drawer.azimuthClient = azimuth;
 				decodeClientAzimuthAndSendSignal(azimuth);
 			}
 		};
@@ -61,10 +58,12 @@ public class SynchronousFragment extends Fragment {
 		direction_sensor = new DirectionSensor(base_context, (TextView) root.findViewById(R.id.azimuth_view)) {
 			@Override
 			public void processDataOrSendSignal(int azimuth, int pitch, int roll) {
+				trace_drawer.azimuthController = azimuth;
 				decodeControllerAzimuth(azimuth);
 			}
 		};
 		trace_drawer = root.findViewById(R.id.dots_view);
+		trace_drawer.bluetooth = bluetooth;
 
 		initializeSyncWidgets(root);
 		initializeDrawWidgets(root);
