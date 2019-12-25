@@ -58,7 +58,6 @@ public class SynchronousFragment extends Fragment {
 		direction_sensor = new DirectionSensor(base_context, (TextView) root.findViewById(R.id.azimuth_view)) {
 			@Override
 			public void processDataOrSendSignal(int azimuth, int pitch, int roll) {
-				trace_drawer.azimuthController = azimuth;
 				decodeControllerAzimuth(azimuth);
 			}
 		};

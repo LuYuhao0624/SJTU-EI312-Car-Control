@@ -56,11 +56,10 @@ public class TraceDrawer extends View {
 	private boolean on_dot = false;
 	// indicate whether the first dot is selected
 	private boolean first_selected = false;
-	private static final float UNIT_DISTANCE = 1.0f;
+	private static final float UNIT_DISTANCE = 2.0f;
 
 	public Bluetooth bluetooth;
 	public int azimuthClient = 0;
-	public int azimuthController = 0;
 
 	public TraceDrawer(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -239,7 +238,7 @@ public class TraceDrawer extends View {
 	class ControlThread extends Thread{
 		@Override
 		public void run(){
-			int targetAzimuth = azimuthClient;
+			int targetAzimuth = (azimuthClient + 360) % 360;
 
 			occupied = true;
 
@@ -252,35 +251,45 @@ public class TraceDrawer extends View {
 					} catch(InterruptedException e){
 						Log.i("swallow.sync", "Sleep interrupted.");
 					}
-				}else {
+				}else if(ctrl.degree == 0){
+					continue;
+				}else{
 					//转弯信号
 					if(ctrl.signal == 2)
-						targetAzimuth -= ctrl.degree;
+						targetAzimuth = (targetAzimuth - ctrl.degree + 360) % 360;
 					else if(ctrl.signal == 3)
-						targetAzimuth += ctrl.degree;
+						targetAzimuth = (targetAzimuth + ctrl.degree + 360) % 360;
 					else
 						continue;
 
-					while(true){
-						int delta = (azimuthClient-targetAzimuth) % 360;
-						if(Math.abs(delta) <= 10)
-							break;
+					int delta = ((azimuthClient + 360) % 360 - targetAzimuth + 360) % 360;
+					if(delta <= 5 || delta >= 355)
+						continue;
 
-						bluetooth.send(delta > 0 ? 2 : 3);
+					if(delta > 180)
+						bluetooth.send(3);
+					else
+						bluetooth.send(2);
+
+					while(true){
 						try{
 							sleep(10);
-						} catch(InterruptedException e){
+						}catch(InterruptedException e){
 							Log.i("swallow.sync", "Sleep interrupted.");
 						}
+						delta = ((azimuthClient + 360) % 360 - targetAzimuth + 360) % 360;
+						if(delta <= 5 || delta >= 355)
+							break;
 					}
+				}
+				bluetooth.send(0);
+				try{
+					sleep(20);
+				} catch(InterruptedException e){
+					Log.i("swallow.sync", "Sleep interrupted.");
 				}
 			}
 			bluetooth.send(0);
-			try{
-				sleep(1000);
-			}catch(InterruptedException e){
-				Log.i("swallow.sync", "Sleep interrupted.");
-			}
 			occupied = false;
 		}
 	}
