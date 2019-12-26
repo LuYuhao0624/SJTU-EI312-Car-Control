@@ -17,12 +17,10 @@ Our project consists of three major modules:
 ## Software
 ### Control Panel
 In the four figures below, the leftmost one is the navigation bar of our app. The user can navigate to any of our control method through it.
-<center class = "fourth">
-    <img src="./figs/menu.png" width="20%">
-    <img src="./figs/basic_control.png" width="20%">
-    <img src="./figs/speech_control.png" width="20%">
-    <img src="./figs/gesture_control.png" width="20%">
-</center>
+<div align="center">
+    <img src="./figs/menu.png" width="20%"/><img src="./figs/basic_control.png" width="20%" /><img src="./figs/speech_control.png" width="20%" /><img src="./figs/gesture_control.png" width="20%"/>
+</div>
+
 #### Basic Control
 Second from the left (above) is the basic button control. The signals correspond to the text on the buttons.
 #### Speech Control
@@ -37,12 +35,10 @@ The second from left (below) is the absolute control. The car will move in the d
 The second from the right (below) is the basic synchronous control. The car consistently tries to face the direction the controller phone faces. The controller phone is supposed to be horizontal with screen facing the user, top to the left. The TextViews are debug informations. **FORWARD/STOP** button indicates whether the car forwards or stops when its direction is in consistency with that of the controller. **TOGGLE** flips the UI between basic synchronous control and sudoku control.
 
 The rightmost (below) is the sudoku control. The user can draw any valid patterns in the sudoku and the car moves in the same trace. After the car finishes the trajectory, it stays synchronized with the controller. The placement of controller is the same as that of basic synchronous control.
-<center class = "fourth">
-    <img src="./figs/gravity_control.png" width="20%">
-    <img src="./figs/absolute_control.png" width="20%">
-    <img src="./figs/synchronous_control.png" width="20%">
-    <img src="./figs/draw_control.png" width="20%">
-</center>
+<div align="center">
+    <img src="./figs/gravity_control.png" width="20%" style="display: inline-block"/><img src="./figs/absolute_control.png" width="20%" style="display: inline-block"/><img src="./figs/synchronous_control.png" width="20%" style="display: inline-block"/><img src="./figs/draw_control.png" width="20%" style="display: inline-block"/>
+</div>
+
 ## Project Structure
 ### `DirectionSensor` Module
 This module implements `SensorEventListener` and is used in absolute, synchronous control in CarController and main activity in CarClient. In `onSensorChanged` method, first use the values of accelerometer and magnetic field sensors to get the orientation including azimuth, pitch and roll (see detailed information in android [doc](https://developer.android.com/reference/android/hardware/SensorManager.html#getOrientation(float[],%20float[]))), then followed by an abstract method `processDataOrSendSignal` for other specific logic on instantiating. In addition, the class provides `registerSensors` and `unregisterSensor` methods to control the usage of sensors in order to save power when it is not needed.
