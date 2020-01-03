@@ -24,7 +24,7 @@ The car is powered by a 6-volt battery pack. The main components include:
 - A microcontroller (Texas Instruments, MSP-EXP430G2)
 A high-level diagram is given below:
 <div align="center">
-    <img src="./figs/hardware.png" width="20%"/><img src="./figs/basic_control.png" width="20%" /><img src="./figs/speech_control.png" width="20%" /><img src="./figs/gesture_control.png" width="20%"/>
+    <img src="./figs/hardware.png" width="80%"/>
 </div>
 In effect, the car listens to the command (from bluetooth channel) indefinitely, and acts as the commander says. It doesn't care about *why*. The logic is exceptionally easy: the program sits on a tight loop. If it were ever told to turn left, speed up the right wheel; and vice versa.
 
@@ -73,7 +73,7 @@ This module implements `SensorEventListener` and is used in main activity in Car
 ### `CarClient.MainActivity`
 There are four buttons on the layout. One for WiFi Direct connect, one for WiFi Direct disconnect, one for turning on/off direction sensor and one for turning on light sensor. Next to the sensor switch buttons are their status, i.e. on/off along with the values if the sensor is on. Below is the view of the camera.
 
-### `Bluetooth` module
+### `CarController.Bluetooth` module
 This module manages the bluetooth connection with the Car. It also provides an interface to send command to the Car.
 
 ### `CarController.WifiServer` and `CarController.WifiServerThread`
